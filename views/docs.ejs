@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simple and Reduce astrometry tool based on Astromery.net">
+  <title>Reduced Astrometry Tool - R.A.T.</title>
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Icons -->
+  <link rel='stylesheet' rel="preload"
+    href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+  <link rel='stylesheet' rel="preload"
+    href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <!-- css -->
+  <link rel="stylesheet" rel="preload" href="css/style.css">
+
+</head>
+
+<body>
+  <%- include('partials/navbar.ejs'); %>
+
+    <!-- Main Content -->
+    <main class="container mb-4">
+
+      <!-- Gallery Section -->
+      <section class="card mb-4">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <h2 class="section-title fs-5 mb-0">Documentation</h2>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="container">
+                <h1 class="mb-5 text-center"><img src="images/rat.webp" alt="Logo" class="logo me-3"> - Reduced
+                  Astrometry Tool (R.A.T.)</h1>
+                <section class="mb-5">
+                  <h3>General Description</h3>
+                  <p>The <strong>Reduced Astrometry Tool (R.A.T.)</strong> allows generating astrometry of astrophotos using the
+                    <code><a href="https://astrometry.net/" target="_blank" class="text-decoration-none">Astrometry.net</a></code> engine,
+                    specifically through
+                    <code><a href="https://manpages.debian.org/testing/astrometry.net/solve-field.1.en.html" target="_blank" class="text-decoration-none">solve-field</a></code>
+                    and
+                    <code><a href="https://manpages.debian.org/testing/astrometry.net/plot-constellations.1.en.html" target="_blank" class="text-decoration-none">plot-constellations</a></code>.
+                    Its main objective is to facilitate obtaining astrometry quickly and customizably, ideal for sharing on social media or saving as a visual record.
+                  </p>
+                  <p><strong>Note:</strong> This tool is not intended for scientific or professional use. For that, it is recommended to use <a href="https://nova.astrometry.net" target="_blank"
+                      class="text-decoration-none">nova.astrometry.net</a>, which offers greater detail, precision, and persistent storage.</p>
+                  <p>If you find any errors, have suggestions, or wish to collaborate, write to:
+                    <strong>[mail]</strong>
+                  </p>
+                </section>
+                <section class="mb-5">
+                  <h3>Main Features</h3>
+                  <ul>
+                    <li>Supported formats: <code>.jpg</code>, <code>.jpeg</code> and <code>.png</code></li>
+                    <li>Maximum size per image: <strong>25 MB</strong></li>
+                    <li>Results customization: font size, number of stars, RA and Dec grid</li>
+                    <li>Customizable watermark</li>
+                    <li>Temporary storage of original and processed image</li>
+                  </ul>
+                </section>
+                <section class="mb-5">
+                  <h3>User Guide</h3>
+                  <p>Usage is very simple. Here are the steps:</p>
+                  <h5>Step 1: Image Upload</h5>
+                  <p>Select the image you want to process. A thumbnail with its information will be displayed.</p>
+                  <div><img src="images/docs/upload.png" class="img-fluid border border-1 border-secondary mb-4"></div>
+                  <h5>Step 2: Space Elements Options (Star Settings)</h5>
+                  <ul>
+                    <li><strong>Font Size:</strong> Text size for element labels</li>
+                    <li><strong>Chart Constellations:</strong> Draws constellation lines</li>
+                    <li><strong>Plot NGC Catalog:</strong> Shows objects like clusters, nebulae, galaxies</li>
+                    <li><strong>Plot N Brightest Star:</strong> Shows the N brightest stars</li>
+                    <li><strong>Plot Named Bright Star:</strong> Adds common names to stars</li>
+                  </ul>
+                  <div><img src="images/docs/starSetting.png" class="img-fluid border border-1 border-secondary mb-4">
+                  </div>
+                  <h5>Step 3: Grid Settings</h5>
+                  <ul>
+                    <li><strong>Plot RA,Dec Grid:</strong> Activates the grid</li>
+                    <li><strong>Grid Spacing:</strong> Spacing in arcseconds</li>
+                    <li><strong>Grid Color:</strong> Color of grid lines</li>
+                  </ul>
+                  <div><img src="images/docs/gridSettings.PNG" class="img-fluid border border-1 border-secondary mb-4">
+                  </div>
+
+                  <h5>Step 4: Copyright Text (Other Options)</h5>
+                  <ul>
+                    <li><strong>Copyright Text:</strong> Text for watermark</li>
+                    <li><strong>Text Position:</strong> Location in cardinal points</li>
+                    <li><strong>Text Color:</strong> Text color (should contrast)</li>
+                    <li><strong>Font Size:</strong> Font size</li>
+                    <li><strong>Opacity:</strong> Opacity (100% = opaque, 0% = transparent)</li>
+                  </ul>
+                  <div><img src="images/docs/copyrightText.PNG"
+                      class="img-fluid border border-1 border-secondary h-50 mb-4"></div>
+                  <h5>Step 5: Process Image</h5>
+                  <p>Click on <strong>Upload Image</strong>. The button changes according to the process status:</p>
+                  <div>
+                    <img src="images/docs/uploadingButton.PNG" class="img-fluid border border-1 border-secondary mb-4">
+                    <img src="images/docs/ProcessingButton.PNG" class="img-fluid border border-1 border-secondary mb-4">
+                  </div>
+                  <h5>Step 6: Results</h5>
+                  <ul>
+                    <li>Processed image (click to view at full resolution)</li>
+                    <li><strong>Object Information:</strong> Position and list of identified objects</li>
+                    <li><strong>System Log:</strong> Processing log</li>
+                    <li><strong>EXIF Data:</strong> Technical image data</li>
+                  </ul>
+                  <div><img src="images/docs/visualization.PNG"
+                      class="img-fluid border border-1 border-secondary h-50 mb-4"></div>
+                  <p><strong>Important:</strong> If the page is closed or reloaded, the process will continue, but the automatic preview will not be shown. The image will appear in the gallery later.</p>
+                </section>
+                <section>
+                  <h3>Final Considerations</h3>
+                  <ul>
+                    <li>Not a tool for scientific or professional use</li>
+                    <li>Images belong to their authors</li>
+                    <li>Errors in the process or missing elements may occur</li>
+                    <li>Not all existing stellar catalogs are included</li>
+                  </ul>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <%- include('partials/footer.ejs'); %>
+      <!-- jQuery -->
+      <script src="js/jquery-3.7.1.min.js"></script>
+      <!-- Bootstrap JS Bundle with Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+      <!-- navbar -->
+      <script src="js/nav.js"></script>
+      <!-- Custom Scripts -->
+      <script src="js/scriptDocs.js"></script>
+</body>
+
+</html>

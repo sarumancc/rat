@@ -1,0 +1,29 @@
+{
+  "name": "simpleastrometry",
+  "version": "1.0.0",
+  "description": "Simple Astrometry Web",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async-mutex": "^0.5.0",
+    "async-shelljs": "^0.1.4",
+    "compression": "^1.8.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "exifreader": "^4.27.0",
+    "express": "^4.21.2",
+    "express-fileupload": "^1.5.1",
+    "express-rate-limit": "^7.5.0",
+    "fs": "^0.0.1-security",
+    "iconv": "^3.0.1",
+    "path": "^0.12.7",
+    "shelljs": "^0.9.2",
+    "short-unique-id": "^5.2.2"
+  }
+}
