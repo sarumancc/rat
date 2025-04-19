@@ -15,7 +15,7 @@ function getImageUploaded(page = 1) {
 
         gallery.empty();
         $.each(images, function (index, imgSrc) {
-          gallery.append(`<a href="http://chupacabra.cl:5000/imageviewer?id=${imgSrc}"><img src="images/thumbnail/${imgSrc}" id="${imgSrc}_thumb" alt="Thumbnail" class="thumbnail"></a>`);
+          gallery.append(`<a href="/imageviewer?id=${imgSrc}"><img src="images/thumbnail/${imgSrc}" id="${imgSrc}_thumb" alt="${imgSrc}" class="thumbnail"></a>`);
         });
 
         $('li a[id^="pageNumber"]').parent().remove();
@@ -58,7 +58,7 @@ $(document).ready(function () {
   $("#navGallery").addClass("active");
 
   // Toastr configuration options
-  toastr.options = {
+/*   toastr.options = {
     "closeButton": true,
     "debug": false,
     "newestOnTop": false,
@@ -74,7 +74,7 @@ $(document).ready(function () {
     "hideEasing": "linear",
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
-  }
+  } */
 
   getImageUploaded(1);
 

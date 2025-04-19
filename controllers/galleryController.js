@@ -41,7 +41,7 @@ const imageController = {
 	getGalleryPaginated: async (req, res) => {
 		try {
 			const fileList = [];
-			const limit = 12;
+			const limit = 16;
 			const page = parseInt(req.query.page) || 1;
 
 			fs.readdir(THUMBNAIL_DIR, (err, files) => {

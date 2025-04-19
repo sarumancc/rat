@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simple and Reduce astrometry tool based on Astromery.net">
+  <title>Reduced Astrometry Tool - R.A.T.</title>
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Icons -->
+  <link rel='stylesheet' rel="preload"
+    href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+  <link rel='stylesheet' rel="preload"
+    href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Leaflet CSS for maps -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <!-- Leaflet JS for maps -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <!-- css -->
+  <link rel="stylesheet" rel="preload" href="css/style.css">
+  <style>
+    #visitorMap {
+      height: 400px;
+      width: 100%;
+      border-radius: 0.25rem;
+    }
+
+    .stat-card {
+      transition: transform 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .country-flag {
+      width: 24px;
+      height: 16px;
+      margin-right: 8px;
+    }
+
+    .timeline {
+      position: relative;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .timeline-item {
+      padding: 10px 0;
+      border-left: 2px solid #dee2e6;
+      position: relative;
+      padding-left: 20px;
+      margin-left: 10px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      width: 12px;
+      height: 12px;
+      background-color: white;
+      border: 2px solid #007bff;
+      border-radius: 50%;
+      position: absolute;
+      left: -7px;
+      top: 12px;
+    }
+
+    .timeline-date {
+      color: #6c757d;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('partials/navbar.ejs'); %>
+
+    <!-- Main Content -->
+    <main class="container mb-4">
+
+      <!-- Dashboard Header -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fi fi-rs-chart-line-up me-2"></i>Visitor Analytics Dashboard</h2>
+        <div class="btn-group">
+          <button class="btn btn-outline-primary" id="last24h">Last 24h</button>
+          <button class="btn btn-outline-primary" id="last7d">Last 7d</button>
+          <button class="btn btn-outline-primary" id="last30d">Last 30d</button>
+          <button class="btn btn-outline-primary active" id="allTime">All Time</button>
+        </div>
+      </div>
+
+      <!-- Summary Stats -->
+      <div class="row mb-4">
+        <div class="col-md-4 mb-4">
+          <div class="card stat-card bg-primary text-white">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="card-title">Total Visits</h6>
+                  <h2 class="display-5 fw-bold" id="totalVisits">-</h2>
+                </div>
+                <div class="align-self-center">
+                  <i class="fi fi-ss-users-alt fs-1"></i>
+                </div>
+              </div>
+              <p class="card-text mt-2 mb-0" id="totalVisitsTrend">-</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card stat-card bg-success text-white">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="card-title">Unique Visitors</h6>
+                  <h2 class="display-5 fw-bold" id="uniqueVisitors">-</h2>
+                </div>
+                <div class="align-self-center">
+                  <i class="fi fi-ss-user fs-1"></i>
+                </div>
+              </div>
+              <p class="card-text mt-2 mb-0" id="uniqueVisitorsTrend">-</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="card stat-card bg-info text-white">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h6 class="card-title">Countries</h6>
+                  <h2 class="display-5 fw-bold" id="countriesCount">-</h2>
+                </div>
+                <div class="align-self-center">
+                  <i class="fi fi-ss-globe fs-1"></i>
+                </div>
+              </div>
+              <p class="card-text mt-2 mb-0" id="countriesTrend">-</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section and Map Row -->
+      <div class="row mb-4">
+        <!-- Section Distribution -->
+        <div class="col-md-5 mb-3">
+          <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0"><i class="fi fi-rs-apps me-2"></i>Section Visits</h5>
+              <button class="btn btn-sm btn-outline-secondary" id="refreshSections">
+                <i class="fi fi-rs-refresh"></i>
+              </button>
+            </div>
+            <div class="card-body">
+              <canvas id="sectionChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visitor Map -->
+        <div class="col-md-7 mb-3">
+          <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0"><i class="fi fi-rs-map-marker me-2"></i>Visitor Locations</h5>
+            </div>
+            <div class="card-body">
+              <div id="visitorMap"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Countries and Timeline Row -->
+      <div class="row mb-4">
+        <!-- Top Countries -->
+        <div class="col-md-6 mb-3">
+          <div class="card h-100">
+            <div class="card-header">
+              <h5 class="mb-0"><i class="fi fi-rs-world me-2"></i>Top Countries</h5>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Country</th>
+                      <th>Visitors</th>
+                      <th>% of Total</th>
+                      <th>Trend</th>
+                    </tr>
+                  </thead>
+                  <tbody id="countriesTableBody">
+                    <!-- Will be populated by JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Visits Timeline -->
+        <div class="col-md-6 mb-3">
+          <div class="card h-100">
+            <div class="card-header">
+              <h5 class="mb-0"><i class="fi fi-rs-time-past me-2"></i>Recent Visits</h5>
+            </div>
+            <div class="card-body">
+              <div class="timeline" id="visitsTimeline">
+                <!-- Will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Traffic and Timezone Row -->
+      <div class="row mb-4">
+        <!-- Traffic Over Time -->
+        <div class="col-md-8 mb-3">
+          <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0"><i class="fi fi-rs-chart-line me-2"></i>Traffic Over Time</h5>
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-outline-secondary active" id="dailyTraffic">Daily</button>
+                <button class="btn btn-outline-secondary" id="weeklyTraffic">Weekly</button>
+                <button class="btn btn-outline-secondary" id="monthlyTraffic">Monthly</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="trafficChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timezone Distribution -->
+        <div class="col-md-4 mb-3">
+          <div class="card h-100">
+            <div class="card-header">
+              <h5 class="mb-0"><i class="fi fi-rs-time-twenty-four me-2"></i>Timezone Distribution</h5>
+            </div>
+            <div class="card-body">
+              <canvas id="timezoneChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Table Section -->
+      <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0"><i class="fi fi-rs-list me-2"></i>Detailed Visit Log</h5>
+          <div class="input-group" style="width: 300px;">
+            <input type="text" class="form-control" placeholder="Search visits..." id="visitSearch">
+            <button class="btn btn-outline-secondary" type="button"><i class="fi fi-rs-search"></i></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Date & Time</th>
+                  <th>Section</th>
+                  <th>IP Address</th>
+                  <th>Country</th>
+                  <th>City</th>
+                  <th>Timezone</th>
+                </tr>
+                </tr>
+              </thead>
+              <tbody id="visitsTableBody">
+                <!-- Will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center" id="visitsPagination">
+              <!-- Will be populated by JavaScript -->
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+    </main>
+    <%- include('partials/footer.ejs'); %>
+
+      <!-- Pass the geoipLogs to JavaScript -->
+      <script>
+        // Make the logs available to our JavaScript
+        const geoipLogs = <%- JSON.stringify(geoipLogs || []) %>;
+      </script>
+
+      <!-- jQuery -->
+      <script src="js/jquery-3.7.1.min.js"></script>
+      <!-- Bootstrap JS Bundle with Popper -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+      <!-- navbar -->
+      <script src="js/nav.js"></script>
+      <!-- Custom Scripts -->
+      <script src="js/scriptCounter.js"></script>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          // Initialize the map
+          const map = L.map('visitorMap').setView([20, 0], 2);
+
+          // Add OpenStreetMap tile layer
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          }).addTo(map);
+
+          // Make map available globally for the scriptCounter.js
+          window.visitorMap = map;
+
+          // If we have actual geoipLogs data, we would process it here
+          if (geoipLogs && geoipLogs.length > 0) {
+            console.log("Processing real geoip logs:", geoipLogs.length, "entries");
+            // The actual data processing will be handled by scriptCounter.js
+          } else {
+            // Display a message if no data is available
+            document.getElementById('totalVisits').textContent = '0';
+            document.getElementById('uniqueVisitors').textContent = '0';
+            document.getElementById('countriesCount').textContent = '0';
+            document.getElementById('avgDuration').textContent = 'N/A';
+
+            document.getElementById('totalVisitsTrend').textContent = 'No data available';
+            document.getElementById('uniqueVisitorsTrend').textContent = 'No data available';
+            document.getElementById('countriesTrend').textContent = 'No data available';
+            document.getElementById('durationTrend').textContent = 'No data available';
+
+            document.getElementById('visitsTimeline').innerHTML = '<div class="text-center p-3">No recent visits to display</div>';
+            document.getElementById('countriesTableBody').innerHTML = '<tr><td colspan="4" class="text-center">No country data available</td></tr>';
+            document.getElementById('visitsTableBody').innerHTML = '<tr><td colspan="6" class="text-center">No visit data available</td></tr>';
+          }
+        });
+      </script>
+</body>
+
+</html>

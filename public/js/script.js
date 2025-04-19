@@ -11,7 +11,7 @@ function getImageUploaded() {
         // Limpiar la galería y agregar nuevas imágenes
         $gallery.empty();
         $.each(images, function (index, imgSrc) {
-          $gallery.append(`<a href="http://chupacabra.cl:5000/imageviewer?id=${imgSrc}"><img src="images/thumbnail/${imgSrc}" id="${imgSrc}_thumb" alt="Thumbnail" class="thumbnail"></a>`);
+          $gallery.append(`<a href="/imageviewer?id=${imgSrc}"><img src="images/thumbnail/${imgSrc}" id="${imgSrc}_thumb" alt="Thumbnail" class="thumbnail"></a>`);
         });
       } else {
         toastr.error("Server Error: " + response.message);

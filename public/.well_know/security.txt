@@ -1,0 +1,6 @@
+Contact: mailto:radiochupacabra@gmail.com
+Expires: 2025-08-17T03:00:00.000Z
+Acknowledgments: https://securitytxt.org/
+Acknowledgments: https://securityheaders.com/
+Preferred-Languages: en, es
+Canonical: https://rat.chupacabra.cl/.well_know/security.txt

@@ -139,6 +139,8 @@ dist
 procesar-imagen/img-temp/*
 procesar-imagen/plot-temp/*
 procesar-imagen/solve-images/*
+public/images/thumbnail/*
+!public/images/thumnail/.gitkeep
 !procesar-imagen/img-temp/.gitkeep
 !procesar-imagen/plot-temp/.gitkeep
 !procesar-imagen/solve-images/.gitkeep
