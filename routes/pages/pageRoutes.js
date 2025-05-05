@@ -25,6 +25,11 @@ router.get('/docs', (req, res) => {
 	res.render('docs', { status: '200' });
 });
 
+router.get('/about', (req, res) => {
+	geoipLookup('about',req);
+	res.render('about', { status: '200' });
+});
+
 router.get('/counter', (req, res) => {
 	const logFilePath = `${JSON_PATH}/geoip_logs.json`;
 	let geoipLogs = [];

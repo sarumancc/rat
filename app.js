@@ -104,8 +104,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 // Usa las rutas
-/* app.use('/api/usuarios', usuariosRoutes);
-app.use('/api/dashboard', dashboardRoutes); */
 app.use('/api/astrometry', processRoutes);
 app.use('/api/image', imageRoutes);
 app.use('/api/gallery', galleryRoutes);
